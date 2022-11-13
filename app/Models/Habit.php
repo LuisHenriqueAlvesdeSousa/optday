@@ -9,7 +9,15 @@ class Habit extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'name'
+    ];
+
+    public function user(){
+        return $this->belongsTo('App\User');
+    }
+
     public function tasks(){
-        return $this->hasMany('App\Task');
+        return $this->hasMany(Task::class);
     }
 }

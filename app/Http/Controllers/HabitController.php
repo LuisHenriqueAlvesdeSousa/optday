@@ -4,6 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\Habit;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
+
 
 class HabitController extends Controller
 {
@@ -14,7 +18,8 @@ class HabitController extends Controller
      */
     public function index()
     {
-        //
+        $habits = Auth::user()->habits;
+        return Inertia::render('Habit/Index', ['habits' => $habits]);
     }
 
     /**
@@ -24,7 +29,7 @@ class HabitController extends Controller
      */
     public function create()
     {
-        //
+        return Inertia::render('Habit/Create');
     }
 
     /**
@@ -35,7 +40,16 @@ class HabitController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $userId = Auth::user()->id;
+
+        DB::table('habits')
+            ->insert([
+                'user_id' => $userId,
+                'name' => $request->name
+            ])
+        ;
+
+        return redirect()->route('habits.index');
     }
 
     /**
@@ -55,9 +69,11 @@ class HabitController extends Controller
      * @param  \App\Models\Habit  $habit
      * @return \Illuminate\Http\Response
      */
-    public function edit(Habit $habit)
+    public function edit($id)
     {
-        //
+        $habit = Habit::find($id);
+
+        return Inertia::render('Habit/Edit', [ 'habit' => $habit]);
     }
 
     /**
@@ -67,9 +83,15 @@ class HabitController extends Controller
      * @param  \App\Models\Habit  $habit
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Habit $habit)
+    public function update(Request $request, $id)
     {
-        //
+        Habit::find($id)
+            ->update([
+                'name' => $request->name
+            ])
+        ;
+
+        return redirect()->route('habits.index');
     }
 
     /**
@@ -78,8 +100,9 @@ class HabitController extends Controller
      * @param  \App\Models\Habit  $habit
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Habit $habit)
+    public function destroy($id)
     {
-        //
+        Habit::find($id)->delete();
+        return redirect()->route('habits.index');
     }
 }

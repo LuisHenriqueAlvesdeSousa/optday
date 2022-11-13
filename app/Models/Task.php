@@ -9,6 +9,10 @@ class Task extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'name'
+    ];
+
     public function dailyGoals(){
         return $this->hasMany('App\DailyGoal');
     }

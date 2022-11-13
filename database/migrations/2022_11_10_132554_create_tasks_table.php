@@ -17,7 +17,7 @@ return new class extends Migration
             $table->increments('id');
             $table->bigInteger('habit_id');
             $table->string('name');
-            $table->string('periodicity');
+            $table->string('periodicity')->nullable();
             $table->timestamps();
         });
     }

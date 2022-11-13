@@ -3,7 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Task;
+use App\Models\Habit;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 class TaskController extends Controller
 {
@@ -14,7 +18,19 @@ class TaskController extends Controller
      */
     public function index()
     {
-        //
+        $habits = Auth::user()->habits;
+        $tasks = [];
+        foreach ($habits as $habit) {
+            $taskList = $habit->tasks;
+            foreach ($taskList as $task) {
+                array_push($tasks, $task);
+            }
+        }
+
+        //$tasks = Task::all();
+        
+
+        return Inertia::render('Task/Index', ['tasks' => $tasks]);
     }
 
     /**
@@ -24,7 +40,13 @@ class TaskController extends Controller
      */
     public function create()
     {
-        //
+        $user_id = Auth::user()->id;
+
+        $habits = DB::table('habits')
+                        ->where('user_id', '=', $user_id)
+                        ->get()
+                    ;
+        return Inertia::render('Task/Create', ['habits' => $habits]);
     }
 
     /**
@@ -35,7 +57,15 @@ class TaskController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        DB::table('tasks')
+            ->insert([
+                'habit_id' => $request->habitId,
+                'name' => $request->name,
+                //'periodity' => ''
+            ])
+        ;
+
+        return redirect()->route('tasks.index');
     }
 
     /**
@@ -55,9 +85,11 @@ class TaskController extends Controller
      * @param  \App\Models\Task  $task
      * @return \Illuminate\Http\Response
      */
-    public function edit(Task $task)
+    public function edit($id)
     {
-        //
+        $task = Task::find($id);
+
+        return Inertia::render('Task/Edit', ['task' => $task]);
     }
 
     /**
@@ -67,9 +99,15 @@ class TaskController extends Controller
      * @param  \App\Models\Task  $task
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Task $task)
+    public function update(Request $request, $id)
     {
-        //
+        Task::find($id)
+            ->update([
+                'name' => $request->name
+            ])
+        ;
+
+        return redirect()->route('tasks.index');
     }
 
     /**
@@ -78,8 +116,9 @@ class TaskController extends Controller
      * @param  \App\Models\Task  $task
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Task $task)
+    public function destroy($id)
     {
-        //
+        Task::find($id)->delete();
+        return redirect()->route('tasks.index');
     }
 }

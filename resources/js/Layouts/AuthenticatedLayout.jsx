@@ -25,6 +25,31 @@ export default function Authenticated({ auth, header, children }) {
                                     Dashboard
                                 </NavLink>
                             </div>
+
+                            <div className="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                                <NavLink href={route('users.show', auth)} active={route().current('users.show')}>
+                                    Perfil
+                                </NavLink>
+                            </div>
+                            
+                            <div className="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                                <NavLink href={route('habits.index')} active={route().current('habits.index')}>
+                                    Habits
+                                </NavLink>
+                            </div>
+
+                            <div className="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                                <NavLink href={route('tasks.index')} active={route().current('tasks.index')}>
+                                    Tasks
+                                </NavLink>
+                            </div>
+
+                            <div className="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                                <NavLink href={route('dailygoals.index')} active={route().current('dailygoals.index')}>
+                                    Goals
+                                </NavLink>
+                            </div>
+                            
                         </div>
 
                         <div className="hidden sm:flex sm:items-center sm:ml-6">
@@ -93,6 +118,30 @@ export default function Authenticated({ auth, header, children }) {
                     <div className="pt-2 pb-3 space-y-1">
                         <ResponsiveNavLink href={route('dashboard')} active={route().current('dashboard')}>
                             Dashboard
+                        </ResponsiveNavLink>
+                    </div>
+
+                    <div className="pt-2 pb-3 space-y-1">
+                        <ResponsiveNavLink href={route('users.show', auth)} active={route().current('users.show')}>
+                            Perfil
+                        </ResponsiveNavLink>
+                    </div>
+
+                    <div className="pt-2 pb-3 space-y-1">
+                        <ResponsiveNavLink href={route('habits.index')} active={route().current('habits.index')}>
+                            Habits
+                        </ResponsiveNavLink>
+                    </div>
+
+                    <div className="pt-2 pb-3 space-y-1">
+                        <ResponsiveNavLink href={route('tasks.index')} active={route().current('tasks.index')}>
+                            Tasks
+                        </ResponsiveNavLink>
+                    </div>
+
+                    <div className="pt-2 pb-3 space-y-1">
+                        <ResponsiveNavLink href={route('dailygoals.index')} active={route().current('dailygoals.index')}>
+                            Goals
                         </ResponsiveNavLink>
                     </div>
 

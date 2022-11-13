@@ -3,6 +3,10 @@
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\HabitController;
+use App\Http\Controllers\TaskController;
+use App\Http\Controllers\DailyGoalController;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,6 +19,8 @@ use Inertia\Inertia;
 |
 */
 
+//Welcome
+
 Route::get('/', function () {
     return Inertia::render('Welcome', [
         'canLogin' => Route::has('login'),
@@ -22,10 +28,28 @@ Route::get('/', function () {
         'laravelVersion' => Application::VERSION,
         'phpVersion' => PHP_VERSION,
     ]);
-});
+})->name('welcome');
+
+//Dashboard
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
+
+//Perfil
+
+Route::resource('users', UserController::class);
+
+//Habit
+
+Route::resource('habits', HabitController::class);
+
+//Task
+
+Route::resource('tasks', TaskController::class);
+
+//Daily Goal
+
+Route::resource('dailygoals', DailyGoalController::class);
 
 require __DIR__.'/auth.php';

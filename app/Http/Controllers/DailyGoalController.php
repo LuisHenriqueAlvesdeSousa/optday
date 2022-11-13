@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\DailyGoal;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class DailyGoalController extends Controller
 {
@@ -14,18 +15,11 @@ class DailyGoalController extends Controller
      */
     public function index()
     {
-        //
+        $dailyGoals= DailyGoal::all();
+        return Inertia::render('DailyGoal/Index', ['dailyGoals' => $dailyGoals]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
+
 
     /**
      * Store a newly created resource in storage.
