@@ -57,15 +57,47 @@ class TaskController extends Controller
      */
     public function store(Request $request)
     {
+        $periodity = '';
+
+        if ($request->cbMonday != null) {
+            $periodity = $periodity . '1';
+        }
+
+        if ($request->cbTuesday != null) {
+            $periodity = $periodity . '2';
+        }
+
+        if ($request->cbWednesday != null) {
+            $periodity = $periodity . '3';
+        }
+
+        if ($request->cbThursday != null) {
+            $periodity = $periodity . '4';
+        }
+
+        if ($request->cbFriday != null) {
+            $periodity = $periodity . '5';
+        }
+
+        if ($request->cbSaturday != null) {
+            $periodity = $periodity . '6';
+        }
+
+        if ($request->cbSunday != null) {
+            $periodity = $periodity . '7';
+        }
+
         DB::table('tasks')
             ->insert([
                 'habit_id' => $request->habitId,
                 'name' => $request->name,
-                //'periodity' => ''
+                'periodicity' => $periodity
             ])
         ;
 
-        return redirect()->route('tasks.index');
+        $redirect = $request->redirect;
+
+        return redirect()->route($redirect);
     }
 
     /**

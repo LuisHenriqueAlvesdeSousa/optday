@@ -222,7 +222,76 @@ export default function Welcome(props) {
                 <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
                     <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                         <div className="p-6 bg-white border-b border-gray-200">
-                            contenido
+                            <div>
+                                <div>puesta de sol</div>
+                                <div>
+                                    OptDay
+                                </div>
+                                <div>
+                                    <div>Agenda Rutina</div>
+                                    <div>Mejora tu productividad y aumenta el crecimiento personal</div>
+                                </div>
+                            </div>
+                            <div>
+                                <div>
+                                    libro de filosofia
+                                </div>
+                                <div>
+                                    Desarrollarse al maximo como persona
+                                </div>
+                                <div>
+                                    La filosofia se basa en mejorar 1% cada dia. Definimos nuestra rutina actual para valorar nuestros habitos y construir nuevos adapatados a nuestra rutina.
+                                </div>
+                            </div>
+                                <div>
+                                    areas de productividad
+                                </div>
+                                <div>
+                                    circulos individual, social, material
+                                </div>
+                                <div>
+                                    Nos fundamentamos en crecer en tus areas del dia a dia.
+                                </div>
+                                <div>
+                                    <div>chica</div>
+                                    <div>individual</div>
+                                    <div>
+                                        Somos la base de nuestro sia, tener buenos habitos diarios individuales nos proporcionara mayor sensación de mejora.
+                                    </div>
+                                    <div>Algunos habitos individuales:</div>
+                                    <ul>
+                                        <li>Estuido</li>
+                                        <li>Trabajo</li>
+                                        <li>cuidado personal</li>
+                                        <li>deporte</li>
+                                        <li>nutricion</li>
+                                        <li>meditacion</li>
+                                        <li>proyectos personales</li>
+                                        <li>busqueda de empleo</li>
+                                    </ul>
+                                </div>
+                                <div>
+                                    <div>tres personas</div>
+                                    <div>social</div>
+                                    <div>
+                                        Compartir el pensamiento que las personas son lo mas importante en nuestro dia a dia.
+                                    </div>
+                                    <div>Pilares sociales</div>
+                                    <ul>
+                                        <li>familia</li>
+                                        <li>amigos</li>
+                                        <li>desconocidos</li>
+                                    </ul>
+                                </div>
+                                <div>
+                                    <div>casa</div>
+                                    <div>material</div>
+                                    <div>
+                                        Construir y cuidar lo material nos permite valorar los objetos cotidianos que nos rodean.
+                                    </div>
+                                </div>
+                            <div>
+                            </div>
                         </div>
                     </div>
                 </div>

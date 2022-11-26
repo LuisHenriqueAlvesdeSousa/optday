@@ -19,6 +19,36 @@ export default function Index(props) {
         window.location.replace(route('tasks.create'));
     }
 
+    function changePeriodicity(periodicity) {
+        let period = '';
+
+        if(periodicity.includes('1')){
+            period = period + '-Mon '
+        }
+        if(periodicity.includes('2')){
+            period = period + '-Tues '
+        }
+        if(periodicity.includes('3')){
+            period = period + '-Wed '
+        }
+        if(periodicity.includes('4')){
+            period = period + '-Thurs '
+        }
+        if(periodicity.includes('5')){
+            period = period + '-Fri '
+        }
+        if(periodicity.includes('6')){
+            period = period + '-Sat '
+        }
+        if(periodicity.includes('7')){
+            period = period + '-Sun '
+        }
+
+        //period = period.substring(0, (period.length - 2))
+
+        return period;
+    }
+
     return (
         <AuthenticatedLayout
             auth={props.auth}
@@ -46,14 +76,14 @@ export default function Index(props) {
                             <table className="table-fixed w-full">
                                     <thead>
                                         <tr className="bg-gray-100">
-                                            <th className="px-4 py-2 w-20">ID</th>
+                                            <th className="px-4 py-2 ">Periodicity</th>
                                             <th className="px-4 py-2">Name</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {tasks.map(({ id, name}) => (
+                                        {tasks.map(({ id, name, periodicity}) => (
                                             <tr>
-                                                <td className="border px-4 py-2">{ id }</td>
+                                                <td className="border px-4 py-2">{ changePeriodicity(periodicity) }</td>
                                                 <td className="border px-4 py-2">{ name }</td>
                                                 <td className="border px-4 py-2">
                                                     <Link

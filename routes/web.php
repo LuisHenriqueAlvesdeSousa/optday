@@ -7,6 +7,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\HabitController;
 use App\Http\Controllers\TaskController;
 use App\Http\Controllers\DailyGoalController;
+use App\Http\Controllers\DashboardController;
 
 /*
 |--------------------------------------------------------------------------
@@ -32,24 +33,22 @@ Route::get('/', function () {
 
 //Dashboard
 
-Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/dashboard', [DashboardController::class, '__invoke'])->middleware(['auth', 'verified'])->name('dashboard');
 
 //Perfil
 
-Route::resource('users', UserController::class);
+Route::resource('users', UserController::class)->middleware(['auth', 'verified']);
 
 //Habit
 
-Route::resource('habits', HabitController::class);
+Route::resource('habits', HabitController::class)->middleware(['auth', 'verified']);
 
 //Task
 
-Route::resource('tasks', TaskController::class);
+Route::resource('tasks', TaskController::class)->middleware(['auth', 'verified']);
 
 //Daily Goal
 
-Route::resource('dailygoals', DailyGoalController::class);
+Route::resource('dailygoals', DailyGoalController::class)->middleware(['auth', 'verified']);
 
 require __DIR__.'/auth.php';

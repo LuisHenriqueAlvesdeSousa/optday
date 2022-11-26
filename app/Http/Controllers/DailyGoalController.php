@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\DailyGoal;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
+use Illuminate\Support\Facades\DB;
 
 class DailyGoalController extends Controller
 {
@@ -29,7 +30,19 @@ class DailyGoalController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        
+        $date = now();
+
+        DB::table('daily_goals')
+            ->insert([
+                'task_id' => $request->dailyGoalId,
+                'date' => $date
+            ])
+        ;
+        
+        return redirect(route('dashboard'));
+
+        
     }
 
     /**
