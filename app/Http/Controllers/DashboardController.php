@@ -18,59 +18,21 @@ class DashboardController extends Controller
      */
     public function __invoke()
     {
-        $dayOfWeek = date('w');
-        $today = date('Y-m-d');
-
         $habits = Auth::user()->habits;
+        $objective = 0;
+        $finished = 0;
+        $habWeek = 0;
+        $habPlus = 0;
+        $percentageToday = 0;
+        $improvement = 0;
+        $dayOfWeek = date('w');
 
-        /*
-        $habits = DB::table('habits')
-                    ->where('user_id', '=', Auth::user()->id)
-                    ->whereIn('id', function ($query) {
-                        $dayOfWeek = '%'.(date('w') + 1).'%';
-                        $query->select('habit_id')
-                            ->from('tasks')
-                            ->whereColumn('tasks.habit_id', 'habits.id');
-                            ->where('periodicity', 'like', $dayOfWeek);
-                    })->get();
-        */
-        
-        /*
-        $habits = DB::select('select *
-                                from habits
-                                where user_id = '. Auth::user()->id .'
-                                and id in ( select habit_id
-                                                from tasks
-                                                where periodicity like "%'.$dayOfWeek.'%")'
-                            );
-        */
-
-        /*
-        $tasks = DB::select('select *
-                            from tasks
-                            where periodicity like "%'.$dayOfWeek.'%"'
-                            );
-
-        */
-
-        /*
-        $habits = [];
-        foreach ($listHabits as $habit) {
-            $taskList = $habit->tasks;
-            foreach ($taskList as $task) {
-                if(str_contains($task->periodicity, $dayOfWeek)){
-                    array_push($habits, $habit);
-                }
-            }
+        if($dayOfWeek == 0){
+            $dayOfWeek = 7;
         }
-        */
 
-        //$habits = [];
-        //$cont = 0;
-        foreach ($habits as $habit) {
-            //$taskList = $habit->tasks;
-            /*$taskList = [];
-            */
+        function getTasks($habit, $dayOfWeek){
+            $today = date('Y-m-d');
             $habit->tasks = DB::select('select * 
                                         from tasks
                                         where periodicity like "%'.$dayOfWeek.'%"
@@ -78,26 +40,56 @@ class DashboardController extends Controller
                                         and id not in (select task_id
                                                             from daily_goals
                                                             where date  like "'. $today . '%") ');
+                
+            
+        }
 
+        function getCountTasks($dayOfWeek){
+            $n = DB::select('select count(id) as "number"
+                                from tasks
+                                where periodicity like "%'.$dayOfWeek.'%"
+                                and habit_id in (select id
+                                                    from habits
+                                                    where user_id = "'.Auth::user()->id.'")');
+            return $n[0]->number;
+        }
+
+        function getTotalTasks(){
+            $n = DB::select('select count(id) as "number"
+                                from tasks
+                                where habit_id in (select id
+                                                    from habits
+                                                    where user_id = "'.Auth::user()->id.'")');
+            return $n[0]->number;
+        }
+
+        function getTotalTaskWeek(){
+            $n = DB::select('select sum(length(periodicity)) as "number"
+                                from tasks
+                                where habit_id in (select id
+                                                    from habits
+                                                    where user_id = "'.Auth::user()->id.'")');
+            return $n[0]->number;
         }
         
-    $goals = DB::select('select * 
-                        from daily_goals 
-                        where date like "'. $today . '%"
-                        and task_id in (select id
-                                            from tasks
-                                            where habit_id in (select id
-                                                                from habits
-                                                                where user_id  = '. Auth::user()->id .'
-                                                                )
-                                            and periodicity like "%'.$dayOfWeek.'%"
-                                        )
-                        ');
+        $objective = getCountTasks($dayOfWeek);
+        $habPlus = getTotalTasks() * 7;
+        $habWeek = getTotalTaskWeek();
 
+        foreach ($habits as $habit) {
+            getTasks($habit, $dayOfWeek);
+            $finished =  $finished + count($habit->tasks);
+        }
 
+        if($objective != 0){
+            $percentageToday = 100 - round($finished / $objective * 100, 1);
+        }
 
-        
-    return Inertia::render('Dashboard', ['habits' => $habits, 'goals' => $goals]);
+        if($habPlus != 0){
+            $improvement = 100 - round($habWeek / $habPlus * 100, 1);
+        }
+
+        return Inertia::render('Dashboard', ['habits' => $habits, 'percentageToday' =>$percentageToday,'improvement' => $improvement]);
 
     }
 
